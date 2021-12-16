@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: static-server4dummysites-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: static-server4dummysites
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 7777

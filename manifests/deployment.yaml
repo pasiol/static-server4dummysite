@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-server4dummysites-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-server4dummysites
+  template:
+    metadata:
+      labels:
+        app: static-server4dummysites
+    spec:
+      volumes:
+        - name: www-data
+          persistentVolumeClaim:
+            claimName: dummysites-pvc
+      containers:
+      - name: static-server4dummysites
+        image: pasiol/static-server4dummysites@sha256:0afbe785e5c9547929a0b7f62ddce98defae8cc340001c0676c083d7b3656cc2
+        env:
+          - name: WWW_ROOT
+            value: /var/app/www/
+          - name: PORT
+            value: "7777"
+        volumeMounts:
+          - mountPath: "/var/app/www"
+            name: www-data
+        resources:
+          limits:
+            memory: "15Mi"
+            cpu: "10m"
